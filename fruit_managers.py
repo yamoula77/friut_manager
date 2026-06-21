@@ -1,36 +1,63 @@
-inventaires = {
-    "bananes": 120,
-    "mangues": 85,
-    "ananas": 45,
-    "noix de coco": 60,
-    "papayes": 30,
-}
+import json
+
+
+def ouvrir_inventaire(path="data/inventaire.json"):
+    with open(path, "r", encoding="utf-8") as fichier:
+        inventaire = json.load(fichier)
+        return inventaire
+
+
+def ecrire_inventaire(inventaire, path="data/inventaire.json"):
+    with open(path, "w", encoding="utf-8") as fichier:
+        json.dump(inventaire, fichier, ensure_ascii=False, indent=4)
+
+
+def ouvrir_tresorerie(path="data/tresorerie.txt"):
+    with open(path, "r", encoding="utf-8") as fichier:
+        tresorerie = json.load(fichier)
+        return tresorerie
+
+
+def ecrire_tresorerie(tresorerie, path="data/tesorerie.txt"):
+    with open(path, "w", encoding="utf-8") as fichier:
+        json.dump(tresorerie, fichier, ensure_ascii=False, indent=4)
+
+
+def affichier_tresorerie(tresorerie):
+    print(f"\n Tresorerie actuelle: {tresorerie:.2f} $")
 
 
 # creer une fonction pour afficher
-def affichier_inventaire(inventaires):
+def affichier_inventaire(inventaire):
     print("inventaire actuel de la plantation :")
-    for fruit, quantite in inventaires.items():
+    for fruit, quantite in inventaire.items():
         print(f"- {fruit.capitalize()}: {quantite} unites")
 
 
 # creer une fonction recolter
-def recolter(inventaires, fruit, quantite):
-    inventaires[fruit] = inventaires.get(fruit, 0) + quantite
+def recolter(inventaire, fruit, quantite):
+    inventaire[fruit] = inventaire.get(fruit, 0) + quantite
     print(f"\n recolte {quantite} {fruit} supplementaires!")
 
 
 # creer une fonction pour vendre les fruits
-def vendre(inventaires, fruit, quantite):
-    if inventaires.get(fruit, 0) >= quantite:
-        inventaires[fruit] -= quantite
+def vendre(inventaire, fruit, quantite, tresorerie):
+    if inventaire.get(fruit, 0) >= quantite:
+        inventaire[fruit] -= quantite
+        tresorerie += 1 * quantite
         print(f"\n vendu {quantite} {fruit} !")
+        return (inventaire, tresorerie)
     else:
         print(f"pas assez de {fruit} pour vendre {quantite} unites")
 
 
 if __name__ == "__main__":
-    affichier_inventaire(inventaires)
-    recolter(inventaires, "bananes", 10)
-    vendre(inventaires, "bananes", 5)
-    affichier_inventaire(inventaires)
+    inventaire = ouvrir_inventaire()
+    tresorerie = ouvrir_tresorerie()
+    affichier_inventaire(inventaire)
+    affichier_tresorerie(tresorerie)
+    recolter(inventaire, "bananes", 10)
+    inventaire, tresorerie = vendre(inventaire, "bananes", 5, tresorerie)
+
+    ecrire_inventaire(inventaire)
+    ecrire_tresorerie(tresorerie)
