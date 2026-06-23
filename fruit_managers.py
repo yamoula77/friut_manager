@@ -1,10 +1,16 @@
 import json
 
 
+def ouvrir_prix(path="data/prix.json"):
+    with open(path, "r", encoding="utf-8") as fichier:
+        prix = json.load(fichier)
+    return prix
+
+
 def ouvrir_inventaire(path="data/inventaire.json"):
     with open(path, "r", encoding="utf-8") as fichier:
         inventaire = json.load(fichier)
-        return inventaire
+    return inventaire
 
 
 def ecrire_inventaire(inventaire, path="data/inventaire.json"):
@@ -15,10 +21,10 @@ def ecrire_inventaire(inventaire, path="data/inventaire.json"):
 def ouvrir_tresorerie(path="data/tresorerie.txt"):
     with open(path, "r", encoding="utf-8") as fichier:
         tresorerie = json.load(fichier)
-        return tresorerie
+    return tresorerie
 
 
-def ecrire_tresorerie(tresorerie, path="data/tesorerie.txt"):
+def ecrire_tresorerie(tresorerie, path="data/tresorerie.txt"):
     with open(path, "w", encoding="utf-8") as fichier:
         json.dump(tresorerie, fichier, ensure_ascii=False, indent=4)
 
@@ -41,10 +47,11 @@ def recolter(inventaire, fruit, quantite):
 
 
 # creer une fonction pour vendre les fruits
-def vendre(inventaire, fruit, quantite, tresorerie):
+def vendre(inventaire, fruit, quantite, tresorerie, prix):
     if inventaire.get(fruit, 0) >= quantite:
         inventaire[fruit] -= quantite
-        tresorerie += 1 * quantite
+        # tresorerie += 1 * quantite
+        tresorerie += prix.get(fruit, 0) * quantite
         print(f"\n vendu {quantite} {fruit} !")
         return (inventaire, tresorerie)
     else:
@@ -54,10 +61,11 @@ def vendre(inventaire, fruit, quantite, tresorerie):
 if __name__ == "__main__":
     inventaire = ouvrir_inventaire()
     tresorerie = ouvrir_tresorerie()
+    prix = ouvrir_prix()
     affichier_inventaire(inventaire)
     affichier_tresorerie(tresorerie)
     recolter(inventaire, "bananes", 10)
-    inventaire, tresorerie = vendre(inventaire, "bananes", 5, tresorerie)
+    inventaire, tresorerie = vendre(inventaire, "bananes", 5, tresorerie, prix)
 
     ecrire_inventaire(inventaire)
     ecrire_tresorerie(tresorerie)
