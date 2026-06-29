@@ -80,6 +80,12 @@ def valeur_stock(inventaire, prix):
     return valeur
 
 
+def dollar_euro(tresorerie):
+    taux_de_change = 0.86
+    tresorerie_euro = tresorerie * taux_de_change
+    return tresorerie_euro
+
+
 if __name__ == "__main__":
     inventaire = ouvrir_inventaire()
     tresorerie = ouvrir_tresorerie()
