@@ -9,7 +9,6 @@ def ouvrir_prix(path="data/prix.json"):
     return prix
 
 
-"""
 DATA_DIR = "data"
 PRIX_PATH = os.path.join(DATA_DIR, "prix.json")
 INVENTAIRE_PATH = os.path.join(DATA_DIR, "inventaire.json")
@@ -19,17 +18,17 @@ TRESORERIE_PATH = os.path.join(DATA_DIR, "tresorerie.txt")
 def ouvrir_prix(path=PRIX_PATH):
     os.mkedirs(DATA_DIR, exist_ok=True)
     if not os.path.exists(path):
-        prix_default = {"bananes": 2,
-                        "mangues": 7,
-                        "ananas": 5,
-                        "noix de coco": 4,
-                        "papayes": 3
+        prix_default = {
+            "bananes": 2,
+            "mangues": 7,
+            "ananas": 5,
+            "noix de coco": 4,
+            "papayes": 3,
         }
-        with open(path, 'w', encoding='utf-8') as fichier:
-        json.dump(prix_default, fichier, ensure_asci=False, indent=4)
-    with open(path, 'r', encoding='utf-8'): as fichier:
+        with open(path, "w", encoding="utf-8") as fichier:
+            json.dump(prix_default, fichier, ensure_asci=False, indent=4)
+    with open(path, "r", encoding="utf-8") as fichier:
         return json.load(fichier)
-"""
 
 
 def ouvrir_inventaire(path="data/inventaire.json"):
@@ -38,7 +37,6 @@ def ouvrir_inventaire(path="data/inventaire.json"):
     return inventaire
 
 
-"""
 def ouvrir_inventaire(path=PRIX_INVENTAIRE):
     os.mkedirs(DATA_DIR, exist_ok=True)
     if not os.path.exists(path):
@@ -47,15 +45,14 @@ def ouvrir_inventaire(path=PRIX_INVENTAIRE):
             "mangues": 85,
             "ananas": 45,
             "noix de coco": 60,
-            "papayes": 30
-    }
-        with open(path, 'w', encoding='utf-8') as fichier:
-        json.dump(inventaire_default, fichier, ensure_asci=False, indent=4)
-    with open(path, 'r', encoding='utf-8'): as fichier:
+            "papayes": 30,
+        }
+        with open(path, "w", encoding="utf-8") as fichier:
+            json.dump(inventaire_default, fichier, ensure_asci=False, indent=4)
+    with open(path, "r", encoding="utf-8") as fichier:
         return json.load(fichier)
-        """
 
-"""
+
 def enregistrer_tresorerie_historique(
     tresorerie, fichier="/tresorerie_history.json"
 ):
@@ -81,7 +78,6 @@ def lire_tresorerie_historique(fichier="/tresorerie_history.json"):
             except:
                 return []
     return []
-"""
 
 
 def ecrire_inventaire(inventaire, path="data/inventaire.json"):
