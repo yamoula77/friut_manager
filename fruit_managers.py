@@ -1,4 +1,6 @@
 import json
+import os
+import datetime
 
 
 def ouvrir_prix(path="data/prix.json"):
@@ -7,10 +9,79 @@ def ouvrir_prix(path="data/prix.json"):
     return prix
 
 
+"""
+DATA_DIR = "data"
+PRIX_PATH = os.path.join(DATA_DIR, "prix.json")
+INVENTAIRE_PATH = os.path.join(DATA_DIR, "inventaire.json")
+TRESORERIE_PATH = os.path.join(DATA_DIR, "tresorerie.txt")
+
+
+def ouvrir_prix(path=PRIX_PATH):
+    os.mkedirs(DATA_DIR, exist_ok=True)
+    if not os.path.exists(path):
+        prix_default = {"bananes": 2,
+                        "mangues": 7,
+                        "ananas": 5,
+                        "noix de coco": 4,
+                        "papayes": 3
+        }
+        with open(path, 'w', encoding='utf-8') as fichier:
+        json.dump(prix_default, fichier, ensure_asci=False, indent=4)
+    with open(path, 'r', encoding='utf-8'): as fichier:
+        return json.load(fichier)
+"""
+
+
 def ouvrir_inventaire(path="data/inventaire.json"):
     with open(path, "r", encoding="utf-8") as fichier:
         inventaire = json.load(fichier)
     return inventaire
+
+
+"""
+def ouvrir_inventaire(path=PRIX_INVENTAIRE):
+    os.mkedirs(DATA_DIR, exist_ok=True)
+    if not os.path.exists(path):
+        inventaire_default = {
+            "bananes": 140,
+            "mangues": 85,
+            "ananas": 45,
+            "noix de coco": 60,
+            "papayes": 30
+    }
+        with open(path, 'w', encoding='utf-8') as fichier:
+        json.dump(inventaire_default, fichier, ensure_asci=False, indent=4)
+    with open(path, 'r', encoding='utf-8'): as fichier:
+        return json.load(fichier)
+        """
+
+"""
+def enregistrer_tresorerie_historique(
+    tresorerie, fichier="/tresorerie_history.json"
+):
+    historique = []
+    if os.path.exists(fichier):
+        with open(fichier, "r") as f:
+            try:
+                historique = json.load(f)
+            except:
+                historique = []
+    historique.append(
+        {"timetap": datetime.now().isoformat(), "tresorerie": tresorerie}
+    )
+    with open(fichier, "w") as f:
+        json.dump(historique, f)
+
+
+def lire_tresorerie_historique(fichier="/tresorerie_history.json"):
+    if os.path.exists(fichier):
+        with open(fichier, "r") as f:
+            try:
+                return json.load(f)
+            except:
+                return []
+    return []
+"""
 
 
 def ecrire_inventaire(inventaire, path="data/inventaire.json"):
@@ -52,6 +123,7 @@ def vendre(inventaire, fruit, quantite, tresorerie, prix):
         inventaire[fruit] -= quantite
         # tresorerie += 1 * quantite
         tresorerie += prix.get(fruit, 0) * quantite
+        enregistrer_tresorerie_historique(tresorerie)
         print(f"\n vendu {quantite} {fruit} !")
         return (inventaire, tresorerie)
     else:
